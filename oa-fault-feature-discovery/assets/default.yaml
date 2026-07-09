@@ -1,0 +1,55 @@
+data:
+  timestamp_col: DateTime
+  group_col: sn
+  label_col: label
+  ignore_cols:
+    - source_file
+    - alarm_time
+  feature_cols: null
+  feature_cols_file: assets/feature_cols.txt
+  exclude_feature_cols: [] # optional numeric columns to exclude from auto features
+  input_encoding: utf-8-sig
+  duplicate_policy: last   # last | mean
+  derive_min_max_features: false
+  add_missing_indicators: false
+  window_len: 64
+  stride: 16
+  min_history: 64
+  label_strategy: last     # last | any | max
+  max_windows_total: 50000
+  window_sample_mode: uniform  # uniform | random
+  window_sample_seed: 42
+  val_size: 0.2
+  test_size: 0.0
+  random_seed: 42
+
+preprocessing:
+  sn_uppercase: true
+  sn_strip_spaces: true
+  clip_quantiles: [0.001, 0.999]
+  standardize: true
+
+predictor:
+  model: tcn
+  hidden_channels: 96
+  num_blocks: 5
+  kernel_size: 3
+  dropout: 0.15
+  batch_size: 128
+  max_epochs: 60
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  patience: 10
+  positive_weight: auto
+
+generator:
+  latent_dim: 32
+  hidden_channels: 64
+  batch_size: 128
+  max_epochs: 80
+  patience: 10
+  min_delta: 0.0001
+  learning_rate: 0.0001
+  grad_clip: 1.0
+  beta: 0.01
+  train_on_label: null     # null=all windows, 0=normal only, 1=fault only

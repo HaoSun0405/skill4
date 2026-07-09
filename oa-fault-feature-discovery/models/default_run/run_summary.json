@@ -1,0 +1,24 @@
+{
+  "model_bundle": "default_run",
+  "status": "small-data bundled baseline",
+  "runtime_contract": {
+    "predictor_checkpoint": "predictor/model.best.pt",
+    "generator_checkpoint": "generator/vae.pt",
+    "optional_predictor_thresholds": "predictor/threshold_metrics.json"
+  },
+  "expected_shape": {
+    "n_features": 49,
+    "window_len": 64
+  },
+  "replacement_contract": [
+    "Replace predictor/model.best.pt with the server-trained predictor checkpoint.",
+    "Replace generator/vae.pt with the server-trained generator checkpoint.",
+    "Keep checkpoint feature order, window length, and preprocessing config compatible with scripts/optical-amplifier-fault-discovery/configs/default.yaml.",
+    "Optionally replace predictor/threshold_metrics.json and this run_summary.json with the server training metrics."
+  ],
+  "notes": [
+    "This directory should contain reusable model artifacts only.",
+    "Do not store per-dataset analysis outputs such as hidden_features/, processed_data/, morph_windows.csv, or field_contributions.csv here.",
+    "Per-dataset outputs are generated under the input parquet directory or the --output directory."
+  ]
+}
